@@ -13,7 +13,7 @@
         </li>
       </ul>
       <div class="flex justify-between mt-3 mb-3 text-gray-500">
-        <div class="flex items-center">
+        <div class="flex items-center tooltip tooltip-right" data-tip="Cooking time">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
@@ -30,7 +30,7 @@
           </svg>
           <span class="ml-1 lg:text-xl">{{ recipe.prepTime }}</span>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center tooltip" data-tip="Ingredients">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -44,9 +44,9 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="ml-1 lg:text-xl">10</span>
+          <span class="ml-1 lg:text-xl ">10</span>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center tooltip" data-tip="Servings">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -83,5 +83,9 @@ li:after {
 
 li:last-child:after {
   content: "";
+}
+
+.tooltip {
+  z-index: 10;
 }
 </style>

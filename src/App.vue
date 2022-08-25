@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <div class="flex flex-shrink-0 flex-row">
+  <div class="flex flex-row">
     <div class="hidden lg:block min-w-[200px] h-fit bg-secondary p-3">
       <h2>Filters:</h2>
     </div>
@@ -19,6 +19,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
