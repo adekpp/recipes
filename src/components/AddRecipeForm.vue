@@ -47,7 +47,7 @@
         :key="tag"
       >
         <li class="mr-2 text-secondary-content">
-          <small>{{ tag }}</small>
+          <small># tag }}</small>
         </li>
       </ul>
     </div>
