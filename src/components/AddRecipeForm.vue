@@ -1,12 +1,16 @@
 <template>
   <form @submit.prevent="handleSubmit" class="flex flex-col gap-y-5">
     <div>
-      <label>
+      <label v-if="!preview">
         <input
+          @change="handleChange"
           type="file"
           class="text-sm text-grey-500 file:mr-5 file:py-2 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:cursor-pointer hover:file:bg-amber-50 hover:file:text-amber-700"
         />
       </label>
+      <div v-if="preview">
+        <img class="object-contain" :src="preview" alt="" />
+      </div>
     </div>
 
     <div class="relative">
@@ -27,6 +31,7 @@
 
     <div class="relative">
       <input
+        @keypress.prevent.enter
         @keypress.enter="handleAddTag"
         v-model="tag"
         type="text"
@@ -47,7 +52,7 @@
         :key="tag"
       >
         <li class="mr-2 text-secondary-content">
-          <small># tag }}</small>
+          <small># {{ tag }}</small>
         </li>
       </ul>
     </div>
@@ -112,9 +117,15 @@
 
 <script>
 import { reactive, ref } from "@vue/reactivity";
+import getUser from "../composables/getUser";
+import { serverTimestamp } from "firebase/firestore";
 export default {
-  setup() {
+  emits: ["add-doc"],
+  setup(props, ctx) {
+    const { user } = getUser();
     const tag = ref("");
+    const preview = ref(null);
+    const recipeCover = ref(null)
     const newRecipe = reactive({
       cover: null,
       title: "",
@@ -122,6 +133,8 @@ export default {
       desc: "",
       time: "",
       servings: "",
+      uid: user.value.uid,
+      createdAt: serverTimestamp(),
     });
 
     const handleAddTag = () => {
@@ -131,15 +144,25 @@ export default {
       }
     };
 
+    const handleChange = async (e) => {
+      const selectedFile = e.target.files[0];
+      if (selectedFile) {
+        preview.value = URL.createObjectURL(selectedFile);
+        recipeCover.value = selectedFile
+      }
+    };
+
     const handleSubmit = () => {
-        console.log(newRecipe)
-    }
+      ctx.emit("add-doc", newRecipe, recipeCover);
+    };
 
     return {
       newRecipe,
       tag,
       handleAddTag,
-      handleSubmit
+      handleSubmit,
+      handleChange,
+      preview,
     };
   },
 };

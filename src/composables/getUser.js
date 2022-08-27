@@ -7,6 +7,8 @@ const user = ref(auth.currentUser);
 onAuthStateChanged(auth, (_user) => {
   if (_user) {
     user.value = _user;
+  } else {
+    user.value = null;
   }
 });
 

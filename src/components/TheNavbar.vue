@@ -58,23 +58,33 @@
       </div>
 
       <div v-if="user === null" class="flex gap-x-3 mr-3">
-        <button @click="handleLogin">Signin with google</button>
+        <button
+          @click="handleLogin"
+          class="btn btn-sm btn-secondary flex flex-row place-items-center gap-1 bg-secondary p-1 rounded-md hover:bg-secondary-focus"
+        >
+          <img class="w-5" :src="googleIcon" alt="my-logo" />Sign-In with Google
+        </button>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
-import { BIconSearch } from "bootstrap-icons-vue";
+import { BIconSearch, BIconGoogle } from "bootstrap-icons-vue";
 import getUser from "../composables/getUser";
+import { useRouter } from 'vue-router'
 import useLogin from "../composables/useLogin";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/index";
+import googleIcon from "../assets/googleIcon.svg";
+
 export default {
   components: {
     BIconSearch,
+    BIconGoogle,
   },
   setup() {
+    const router = useRouter()
     const { user } = getUser();
     const { loginWithGoogle } = useLogin();
 
@@ -84,12 +94,14 @@ export default {
 
     const handleLogout = async () => {
       await signOut(auth);
+      router.push('/')
     };
 
     return {
       user,
       handleLogin,
       handleLogout,
+      googleIcon,
     };
   },
 };
