@@ -31,8 +31,6 @@
 
     <div class="relative">
       <input
-        @keypress.prevent.enter
-        @keypress.enter="handleAddTag"
         v-model="tag"
         type="text"
         id="tags"
@@ -43,9 +41,14 @@
       <label
         for="tags"
         class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
-        >Tags (max 3)</label
-      >
-      <small>Add tag by pressing ENTER</small>
+        >Tag e.g. #cheese
+      </label>
+      <button @click.prevent="handleAddTag">
+        <BIconPlusCircleFill
+          class="z-50 absolute top-4 right-5 text-2xl text-accent"
+        />
+      </button>
+      <small>Click on tag to delete</small>
       <ul
         class="inline-block float-right italic"
         v-for="tag in newRecipe.tags"
@@ -53,6 +56,37 @@
       >
         <li class="mr-2 text-secondary-content">
           <small># {{ tag }}</small>
+        </li>
+      </ul>
+    </div>
+
+    <div class="relative">
+      <input
+        v-model="ingredient"
+        type="text"
+        id="ingredients"
+        aria-describedby="ingredients_text"
+        class="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+      />
+      <label
+        for="ingredients"
+        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+        >Ingredeint e.g. 4 tbsp olive oil</label
+      >
+
+      <button @click.prevent="handleAddIngredient">
+        <BIconPlusCircleFill
+          class="z-50 absolute top-4 right-5 text-2xl text-accent"
+        />
+      </button>
+      <small>Click on ingredient to delete </small>
+      <ul v-for="(ing, index) in newRecipe.ingredients" :key="ing">
+        <li
+          @click="deleteIngredient(index)"
+          class="mr-2 text-secondary-content"
+        >
+          -{{ ing }}
         </li>
       </ul>
     </div>
@@ -111,7 +145,7 @@
         >
       </div>
     </div>
-    <button class="btn btn-accent btn-sm text-white">Add</button>
+    <button class="btn btn-primary btn-sm text-white">Add</button>
   </form>
 </template>
 
@@ -119,13 +153,18 @@
 import { reactive, ref } from "@vue/reactivity";
 import getUser from "../composables/getUser";
 import { serverTimestamp } from "firebase/firestore";
+import { BIconPlusCircleFill } from "bootstrap-icons-vue";
 export default {
   emits: ["add-doc"],
+  components: {
+    BIconPlusCircleFill,
+  },
   setup(props, ctx) {
     const { user } = getUser();
     const tag = ref("");
+    const ingredient = ref("");
     const preview = ref(null);
-    const recipeCover = ref(null)
+    const recipeCover = ref(null);
     const newRecipe = reactive({
       cover: null,
       title: "",
@@ -133,6 +172,7 @@ export default {
       desc: "",
       time: "",
       servings: "",
+      ingredients: [],
       uid: user.value.uid,
       createdAt: serverTimestamp(),
     });
@@ -144,11 +184,22 @@ export default {
       }
     };
 
+    const handleAddIngredient = () => {
+      if (ingredient.value) {
+        newRecipe.ingredients.push(ingredient.value);
+        ingredient.value = "";
+      }
+    };
+
+    const deleteIngredient = (index) => {
+      newRecipe.ingredients.splice(index, 1);
+    };
+
     const handleChange = async (e) => {
       const selectedFile = e.target.files[0];
       if (selectedFile) {
         preview.value = URL.createObjectURL(selectedFile);
-        recipeCover.value = selectedFile
+        recipeCover.value = selectedFile;
       }
     };
 
@@ -159,7 +210,10 @@ export default {
     return {
       newRecipe,
       tag,
+      ingredient,
       handleAddTag,
+      handleAddIngredient,
+      deleteIngredient,
       handleSubmit,
       handleChange,
       preview,
@@ -167,5 +221,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

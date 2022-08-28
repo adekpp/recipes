@@ -1,105 +1,121 @@
 <template>
-  <div
-    class="w-full flex bg-neutral px-3 py-3 justify-between top-0 z-40 mb-10 sticky"
+  <header
+    class="w-full bg-primary flex place-content-center md:place-content-between px-2 py-3 flex-wrap items-center"
   >
-    <div class="flex place-items-center">
-      <router-link to="/" class="flex flex-row">
-        <div class="text-red-500 font-bold text-md md:text-2xl">delicious</div>
-        <span class="font-bold text-md md:text-2xl">.</span>
-        <div class="text-white font-bold text-md md:text-2xl">recipes</div>
-      </router-link>
-      <div class="hidden md:block ml-14">
-        <label className="relative text-gray-600 focus-within:text-white block">
-          <BIconSearch
-            class="z-50 absolute top-1/2 -translate-y-1/2 left-2 pointer-events-none"
-          />
+    <router-link to="/" class="flex flex-row max-w-md md:w-auto text-2xl">
+      <div class="text-red-500 font-bold md:text-3xl">delicious</div>
+      <span class="font-bold md:text-3xl text-white">.</span>
+      <div class="text-white font-bold md:text-3xl">recipes</div>
+    </router-link>
 
-          <input
-            type="text"
-            placeholder="Search"
-            class="input input-sm input-primary w-full max-w-xs z-10 pl-8"
-          />
-        </label>
-      </div>
+    <div
+      class="mx-auto flex w-xs max-w-md md:max-w-xs items-center w-full place-content-center lg:place-content-start py-3"
+    >
+      <label className="relative text-gray-600 focus-within:text-white block">
+        <BIconSearch
+          class="z-50 absolute top-1/2 -translate-y-1/2 left-2 pointer-events-none"
+        />
+
+        <input
+          type="text"
+          placeholder="Search"
+          class="input input-sm w-full min-w-sm z-10 pl-8"
+        />
+      </label>
     </div>
 
-    <nav class="flex place-items-center">
-      <div v-if="user" class="flex flex-row gap-x-2 place-items-center mr-3">
-        <p>{{ user.email }}</p>
-        <div class="hidden md:block avatar">
-          <div class="w-12 rounded-full">
-            <img :src="user.photoURL" />
-          </div>
-        </div>
+    <ul
+      v-if="user"
+      class="hidden lg:flex flex-row gap-x-3 mt-3 lg:mt-0 w-full lg:w-auto place-content-center"
+    >
+      <li class="hover:text-secondary cursor-pointer">
+        <router-link to="/">All recipes</router-link>
+      </li>
+      <li class="hover:text-secondary cursor-pointer">
+        <router-link to="/recipes/user">My recipes</router-link>
+      </li>
+      <li class="hover:text-secondary cursor-pointer">
+        <router-link to="/add">Add recipe</router-link>
+      </li>
+      <li class="hover:text-secondary cursor-pointer">Favorites</li>
+    </ul>
+    <button
+      v-if="user"
+      @click="handleLogout"
+      class="hidden lg:static btn btn-sm btn-secondary lg:flex flex-row place-items-center ml-3 bg-secondary px-2 py-1 rounded-md hover:bg-secondary-focus"
+    >
+      Logout
+    </button>
+    <router-link to="/login">
+      <button
+        class="hidden md:block absolute top-6 right-2 btn btn-sm btn-secondary place-items-center gap-1 bg-secondary px-4 py-1 rounded-md hover:bg-secondary-focus"
+        v-if="!user"
+      >
+        Login
+      </button>
+    </router-link>
 
-        <div class="dropdown dropdown-end">
-          <label
-            tabindex="0"
-            class="dropdownLabel btn bg-secondary hover:bg-secondary-focus"
-          >
-            <p class="text-sm md:text-sm">My profile</p>
-          </label>
-          <ul
-            tabindex="0"
-            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li class="flex flex-row justify-end">
-              <div class="md:hidden avatar">
-                <div class="w-8 rounded-full">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-            </li>
-            <li><router-link to="/add">Add recipe</router-link></li>
-            <li><a>Favorites</a></li>
-            <li><button @click.prevent="handleLogout">Logout</button></li>
-          </ul>
-        </div>
-      </div>
+    <router-link to="/login">
+      <button
+        v-if="!user"
+        class="block md:hidden absolute top-1 right-1 btn btn-xs btn-secondary place-items-center gap-1 bg-secondary px-2 py-1 rounded-md hover:bg-secondary-focus"
+      >
+        Login
+      </button>
+    </router-link>
 
-      <div v-if="user === null" class="flex gap-x-3 mr-3">
-        <button
-          @click="handleLogin"
-          class="btn btn-sm btn-secondary flex flex-row place-items-center gap-1 bg-secondary p-1 rounded-md hover:bg-secondary-focus"
-        >
-          <img class="w-5" :src="googleIcon" alt="my-logo" />Sign-In with Google
-        </button>
-      </div>
-    </nav>
-  </div>
+    <div v-if="user" class="absolute top-2 right-1 lg:hidden">
+      <Menu>
+        <ul class="flex flex-col gap-y-3">
+          <li class="hover:text-primary cursor-pointer">
+            <router-link to="/">All recipes</router-link>
+          </li>
+          <li class="hover:text-primary cursor-pointer">
+            <router-link to="/recipes/user">My recipes</router-link>
+          </li>
+          <li class="hover:text-primary cursor-pointer">
+            <router-link to="/add">Add recipe</router-link>
+          </li>
+          <li class="hover:text-primary cursor-pointer">Favorites</li>
+          <div class="divide-x-0"></div>
+          <li @click="handleLogout" class="cursor-pointer hover:text-primary">
+            Logout
+          </li>
+        </ul>
+      </Menu>
+    </div>
+  </header>
 </template>
 
 <script>
-import { BIconSearch, BIconGoogle } from "bootstrap-icons-vue";
+import Menu from "../components/Menu.vue";
+
+import { BIconSearch, BIconList } from "bootstrap-icons-vue";
 import getUser from "../composables/getUser";
-import { useRouter } from 'vue-router'
-import useLogin from "../composables/useLogin";
+import { useRouter } from "vue-router";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/index";
 import googleIcon from "../assets/googleIcon.svg";
+import { onMounted } from '@vue/runtime-core';
 
 export default {
   components: {
     BIconSearch,
-    BIconGoogle,
+    BIconList,
+    Menu,
   },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
     const { user } = getUser();
-    const { loginWithGoogle } = useLogin();
-
-    const handleLogin = async () => {
-      await loginWithGoogle();
-    };
 
     const handleLogout = async () => {
       await signOut(auth);
-      router.push('/')
+      router.push("/");
     };
+
 
     return {
       user,
-      handleLogin,
       handleLogout,
       googleIcon,
     };
@@ -108,7 +124,7 @@ export default {
 </script>
 
 <style>
-/* .dropdownLabel {
-  font-size: 10px;
-} */
+.router-link-active {
+  color: rgb(21 128 61);
+}
 </style>

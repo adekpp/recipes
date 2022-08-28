@@ -1,12 +1,16 @@
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, query, where } from "firebase/firestore";
 import { ref, watchEffect } from "vue";
 import { db } from "../firebase/index";
 
-const getCollection = (collectionName) => {
+const getCollection = (collectionName, q) => {
   const documents = ref(null);
 
   //collection ref
   let colRef = collection(db, collectionName);
+
+  if (q) {
+    colRef = query(colRef, where(...q));
+  }
 
   const unsub = onSnapshot(colRef, (snapshot) => {
     let results = [];
@@ -14,14 +18,14 @@ const getCollection = (collectionName) => {
       results.push({ ...doc.data(), id: doc.id });
     });
 
-    documents.value = results
+    documents.value = results;
   });
 
   watchEffect((onInvalidate) => {
-    onInvalidate(() => unsub())
-  })
+    onInvalidate(() => unsub());
+  });
 
-  return { documents }
+  return { documents };
 };
 
-export default getCollection
+export default getCollection;

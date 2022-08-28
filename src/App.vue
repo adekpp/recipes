@@ -1,12 +1,7 @@
 <template>
   <TheNavbar />
-  <div class="flex flex-row">
-    <div class="hidden lg:block min-w-[200px] h-fit bg-secondary p-3">
-      <h2>Filters:</h2>
-    </div>
-    <div class="container mx-auto h-full w-full">
-      <router-view />
-    </div>
+  <div class="container mx-auto pb-6">
+    <router-view />
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row flex-wrap gap-5 justify-start ml-2">
+  <div class="container mx-auto flex flex-col place-items-center">
     <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
   </div>
 </template>
