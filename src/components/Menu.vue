@@ -3,10 +3,10 @@
     <button
       v-if="!isOpen"
       @click="isOpen = true"
-      class="p-2 rounded-md active:bg-secondary-focus bg-neutral hover:bg-secondary-focus"
+      class="p-2 rounded-md active:bg-secondary-focus bg-neutral hover:bg-secondary-focus bg-opacity-25 hover:bg-opacity-80 active:bg-opacity-80"
     >
       <svg
-        class="fill-current h-5 w-5"
+        class="fill-white h-5 w-5"
         viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -18,7 +18,7 @@
     <button
       v-if="isOpen"
       @click="isOpen = false"
-      class="p-2 rounded-md active:bg-secondary-focus hover:bg-secondary-focus bg-neutral"
+      class="p-2 rounded-md active:bg-secondary-focus bg-neutral hover:bg-secondary-focus bg-opacity-25 hover:bg-opacity-80 active:bg-opacity-80"
     >
       <svg
         class="fill-current h-5 w-5"
@@ -34,9 +34,11 @@
   <div
     ref="target"
     v-if="isOpen"
-    class="absolute bg-base-100 top-[37px] right-0 flex flex-col pl-4 py-2 w-[160px] text-left rounded-md z-50 border-l-2 border-accent"
+    class="absolute bg-base-100 top-[37px] right-0 flex flex-col pl-4 py-2 w-[200px] text-left rounded-md z-50 border-l-2 border-accent"
   >
     <slot></slot>
+
+    
   </div>
 </template>
 

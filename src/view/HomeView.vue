@@ -1,5 +1,7 @@
 <template>
-  <RecipesList :recipes="documents" />
+  <div>
+    <RecipesList :recipes="documents" />
+  </div>
 </template>
 
 <script>

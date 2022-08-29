@@ -1,5 +1,7 @@
 <template>
-  <div class="max-w-[400px] mx-auto p-3">
+  <div
+    class="flex md:gap-4 md:max-w-[900px] max-w-[400px] mx-auto p-3  items-center place-content-center pt-4"
+  >
     <AddRecipeForm @add-doc="handleAddDoc" />
   </div>
 </template>

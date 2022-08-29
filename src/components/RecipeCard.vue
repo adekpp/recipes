@@ -3,7 +3,7 @@
     class="flex flex-col w-72 md:w-[600px] md:flex-row overflow-hidden bg-white rounded-lg shadow-xl mt-4 mx-2"
   >
     <!-- media -->
-    <div class="h-48 w-auto">
+    <div class="h-48 md:w-[192px]">
       <img
         class="inset-0 h-full w-full object-cover object-center"
         :src="recipe.cover"
@@ -20,7 +20,7 @@
           v-for="tag in recipe.tags"
           :key="tag"
         >
-          <span>#{{ tag }}</span>
+          <span>{{ tag }}</span>
         </li>
       </ul>
       <div

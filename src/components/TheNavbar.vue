@@ -1,7 +1,8 @@
 <template>
   <header
-    class="w-full bg-primary flex place-content-center md:place-content-between px-2 py-3 flex-wrap items-center"
+    class=" relative w-full bg-primary flex place-content-center md:place-content-between px-2 py-3 flex-wrap items-center"
   >
+    <span v-if="user" class="hidden lg:block absolute top-[85px] right-4">Hi, {{user.email}}</span>
     <router-link to="/" class="flex flex-row max-w-md md:w-auto text-2xl">
       <div class="text-red-500 font-bold md:text-3xl">delicious</div>
       <span class="font-bold md:text-3xl text-white">.</span>
@@ -81,6 +82,10 @@
           <li @click="handleLogout" class="cursor-pointer hover:text-primary">
             Logout
           </li>
+          <li class="hover:text-primary cursor-pointer flex flex-col">
+            <small>Hi, </small
+            ><span class="text-xs">{{ user.email }}</span>
+          </li>
         </ul>
       </Menu>
     </div>
@@ -96,7 +101,7 @@ import { useRouter } from "vue-router";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/index";
 import googleIcon from "../assets/googleIcon.svg";
-import { onMounted } from '@vue/runtime-core';
+import { onMounted } from "@vue/runtime-core";
 
 export default {
   components: {
@@ -112,7 +117,6 @@ export default {
       await signOut(auth);
       router.push("/");
     };
-
 
     return {
       user,

@@ -1,7 +1,9 @@
 <template>
-  <TheNavbar />
-  <div class="container mx-auto pb-6">
-    <router-view />
+  <div class="wrapper">
+    <TheNavbar />
+    <div class="content">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -14,4 +16,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  overflow: auto;
+}
+</style>
