@@ -1,10 +1,6 @@
 <template>
-  <div class="wrapper">
-    <TheNavbar />
-    <div class="content">
-      <router-view />
-    </div>
-  </div>
+  <TheNavbar />
+  <router-view />
 </template>
 
 <script>
@@ -15,19 +11,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.wrapper {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  width: 100%;
-  height: 100%;
-  flex: 1;
-  overflow: auto;
-}
-</style>

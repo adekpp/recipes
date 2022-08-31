@@ -7,7 +7,8 @@ html {
   padding: 0;
   margin: 0;
   width: 100%;
-
+  scroll-behavior: smooth;
+  min-height: 100vh;
 }
 
 body {
@@ -15,7 +16,21 @@ body {
 }
 
 #app {
-  height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.router-link-active {
+  color: rgb(21 128 61);
+}
+
+:root {
+  --popper-theme-background-color: hsl(var(--nf));
+  --popper-theme-background-color-hover: hsl(var(--nf));
+  --popper-theme-text-color: #ffffff;
+  --popper-theme-border-width: 0px;
+  --popper-theme-border-style: solid;
+  --popper-theme-border-radius: 6px;
+  --popper-theme-padding: 20px;
+  --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
 }

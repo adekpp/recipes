@@ -4,6 +4,7 @@ import { addDoc, collection } from "firebase/firestore";
 
 const error = ref(null);
 
+
 const useCollection = (collectionName) => {
   const colRef = collection(db, collectionName);
 

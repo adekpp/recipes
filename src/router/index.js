@@ -44,6 +44,12 @@ const routes = [
     component: () => import("../view/MyRecipesView.vue"),
     beforeEnter: requireAuth,
   },
+  {
+    path: "/tag/:tagName",
+    name: "Tag",
+    component: () => import("../view/TagView.vue"),
+  }
+
 ];
 const router = createRouter({
   history: createWebHistory(),

@@ -1,6 +1,6 @@
 <template>
-  <div class="grid place-content-center h-full">
-    <div class="flex flex-col items-center max-w-[300px]">
+  <div class="grid place-content-center min-h-full">
+    <div class="flex flex-col items-center max-w-[300px] pt-20">
       <button @click="login" class="btn w-full btn-secondary flex gap-x-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,6 @@ import { onMounted, onUnmounted, onUpdated, ref } from "vue";
 
 export default {
   setup() {
-    const width = ref(null);
     const router = useRouter();
     const {
       loginWithGoogle,

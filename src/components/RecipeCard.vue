@@ -1,7 +1,10 @@
 <template>
   <div
-    class="flex flex-col w-72 md:w-[600px] md:flex-row overflow-hidden bg-white rounded-lg shadow-xl mt-4 mx-2"
+    class="relative flex flex-col w-72 md:w-full md:max-w-[600px] md:flex-row overflow-hidden bg-white rounded-lg shadow-xl mt-4 mx-2"
   >
+    <div class="absolute right-1 text-red-500 text-2xl bottom-32 md:top-1">
+      <BIconHeart />
+    </div>
     <!-- media -->
     <div class="h-48 md:w-[192px]">
       <img
@@ -10,8 +13,10 @@
       />
     </div>
     <!-- content -->
-    <div class="w-full py-4 px-6 flex flex-col justify-between">
-      <h3 class="font-semibold text-xl text-primary leading-tight truncate">
+    <div class="w-full max-w-[300px] py-4 px-6 flex flex-col justify-between">
+      <h3
+        class="font-semibold text-xl text-primary leading-tight truncate md:overflow-visible md:whitespace-normal"
+      >
         {{ recipe.title }}
       </h3>
       <ul>
@@ -20,7 +25,9 @@
           v-for="tag in recipe.tags"
           :key="tag"
         >
-          <span>{{ tag }}</span>
+          <router-link :to="{ name: 'Tag', params: { tagName: tag } }"
+            ><span>{{ tag }}</span></router-link
+          >
         </li>
       </ul>
       <div
@@ -70,12 +77,13 @@
 
 <script>
 import { computed } from "@vue/runtime-core";
-import { BIconJournalText, BIconClock } from "bootstrap-icons-vue";
+import { BIconJournalText, BIconClock, BIconHeart } from "bootstrap-icons-vue";
 export default {
   props: ["recipe"],
   components: {
     BIconJournalText,
     BIconClock,
+    BIconHeart,
   },
 
   setup(props) {

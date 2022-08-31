@@ -3,22 +3,30 @@
 </template>
 
 <script>
-import { onMounted, onUpdated, ref } from "@vue/runtime-core";
 import RecipesList from "../components/RecipesList.vue";
+
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import getCollection from "../composables/getCollection";
-import getUser from "../composables/getUser";
+import { onMounted, onUpdated, ref,} from "@vue/runtime-core";
 
 export default {
   components: {
     RecipesList,
   },
   setup() {
-    const { user } = getUser();
-    const query = ref(["uid", "==", user.value.uid]);
+    const route = useRoute();
+    const currentTag = ref(route.params.tagName);
+    const query = ref(["tags", "array-contains", route.params.tagName]);
+
     const { documents, isLoading, getCollectionRTL } = getCollection("recipes");
 
     onMounted(() => {
       getCollectionRTL(query.value);
+    });
+
+    onUpdated(() => {
+      const newQuery = ["tags", "array-contains", route.params.tagName];
+      getCollectionRTL(newQuery);
     });
 
     return {

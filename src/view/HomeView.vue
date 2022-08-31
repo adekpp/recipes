@@ -1,10 +1,11 @@
 <template>
   <div>
-    <RecipesList :recipes="documents" />
+    <RecipesList :recipes="documents" :isLoading="isLoading" />
   </div>
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core';
 import RecipesList from "../components/RecipesList.vue";
 import getCollection from "../composables/getCollection";
 
@@ -13,10 +14,15 @@ export default {
     RecipesList,
   },
   setup() {
-    const { documents } = getCollection("recipes");
+    const { documents, isLoading, getCollectionRTL } = getCollection("recipes");
+
+  onMounted(() => {
+    getCollectionRTL()
+  })
 
     return {
       documents,
+      isLoading,
     };
   },
 };

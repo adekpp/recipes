@@ -2,30 +2,43 @@ import { onSnapshot, collection, query, where } from "firebase/firestore";
 import { ref, watchEffect } from "vue";
 import { db } from "../firebase/index";
 
-const getCollection = (collectionName, q) => {
+const isLoading = ref(null);
+
+const getCollection = (collectionName) => {
   const documents = ref(null);
+  isLoading.value = true;
 
-  //collection ref
-  let colRef = collection(db, collectionName);
+  // //collection ref
+  // let colRef = collection(db, collectionName);
 
-  if (q) {
-    colRef = query(colRef, where(...q));
-  }
+  // if (q) {
+  //   colRef = query(colRef, where(...q));
+  // }
 
-  const unsub = onSnapshot(colRef, (snapshot) => {
-    let results = [];
-    snapshot.docs.forEach((doc) => {
-      results.push({ ...doc.data(), id: doc.id });
+  const getCollectionRTL = (q) => {
+    //collection ref
+    let colRef = collection(db, collectionName);
+
+    if (q) {
+      colRef = query(colRef, where(...q));
+    }
+
+    const unsub = onSnapshot(colRef, (snapshot) => {
+      let results = [];
+      snapshot.docs.forEach((doc) => {
+        results.push({ ...doc.data(), id: doc.id });
+      });
+
+      documents.value = results;
+      isLoading.value = false;
     });
 
-    documents.value = results;
-  });
+    watchEffect((onInvalidate) => {
+      onInvalidate(() => unsub());
+    });
+  };
 
-  watchEffect((onInvalidate) => {
-    onInvalidate(() => unsub());
-  });
-
-  return { documents };
+  return { documents, isLoading, getCollectionRTL };
 };
 
 export default getCollection;

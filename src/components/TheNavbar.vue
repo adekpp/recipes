@@ -1,117 +1,166 @@
 <template>
   <header
-    class=" relative w-full bg-primary flex place-content-center md:place-content-between px-2 py-3 flex-wrap items-center"
+    class="sticky top-0 h-[50px] md:h-[32px] bg-primary z-50 px-4 shadow-md"
   >
-    <span v-if="user" class="hidden lg:block absolute top-[85px] right-4">Hi, {{user.email}}</span>
-    <router-link to="/" class="flex flex-row max-w-md md:w-auto text-2xl">
-      <div class="text-red-500 font-bold md:text-3xl">delicious</div>
-      <span class="font-bold md:text-3xl text-white">.</span>
-      <div class="text-white font-bold md:text-3xl">recipes</div>
-    </router-link>
-
     <div
-      class="mx-auto flex w-xs max-w-md md:max-w-xs items-center w-full place-content-center lg:place-content-start py-3"
+      class="w-full flex mx-auto max-w-5xl place-content-between place-items-center h-full"
     >
-      <label className="relative text-gray-600 focus-within:text-white block">
-        <BIconSearch
-          class="z-50 absolute top-1/2 -translate-y-1/2 left-2 pointer-events-none"
-        />
+      <div v-if="user" class="md:hidden">
+        <Menu arrow placement="bottom">
+          <button class="btn btn-circle btn-sm"><BIconList /></button>
+          <template #content="{ close }">
+            <ul @click="close" v-if="user" class="flex flex-col">
+              <li class="md:hidden hover:text-secondary cursor-pointer">
+                <router-link to="/">All recipes</router-link>
+              </li>
+              <li class="md:hidden hover:text-secondary cursor-pointer">
+                <router-link to="/recipes/user">My recipes</router-link>
+              </li>
+              <li class="md:hidden hover:text-secondary cursor-pointer">
+                <router-link to="/add">Add recipe</router-link>
+              </li>
+              <li class="md:hidden hover:text-secondary cursor-pointer line-through">
+                Favorites
+              </li>
+            </ul>
+          </template>
+        </Menu>
+      </div>
 
-        <input
-          type="text"
-          placeholder="Search"
-          class="input input-sm w-full min-w-sm z-10 pl-8"
-        />
-      </label>
-    </div>
-
-    <ul
-      v-if="user"
-      class="hidden lg:flex flex-row gap-x-3 mt-3 lg:mt-0 w-full lg:w-auto place-content-center"
-    >
-      <li class="hover:text-secondary cursor-pointer">
-        <router-link to="/">All recipes</router-link>
-      </li>
-      <li class="hover:text-secondary cursor-pointer">
-        <router-link to="/recipes/user">My recipes</router-link>
-      </li>
-      <li class="hover:text-secondary cursor-pointer">
-        <router-link to="/add">Add recipe</router-link>
-      </li>
-      <li class="hover:text-secondary cursor-pointer">Favorites</li>
-    </ul>
-    <button
-      v-if="user"
-      @click="handleLogout"
-      class="hidden lg:static btn btn-sm btn-secondary lg:flex flex-row place-items-center ml-3 bg-secondary px-2 py-1 rounded-md hover:bg-secondary-focus"
-    >
-      Logout
-    </button>
-    <router-link to="/login">
-      <button
-        class="hidden md:block absolute top-6 right-2 btn btn-sm btn-secondary place-items-center gap-1 bg-secondary px-4 py-1 rounded-md hover:bg-secondary-focus"
-        v-if="!user"
+      <router-link
+        to="/"
+        class="flex flex-row max-w-md md:w-auto items-center transition-all ease-in-out duration-300 z-50"
+        :class="{
+          'opacity-0 translate-y-1': targetIsVisible,
+          'opacity-100 translate-y-0 drop-shadow-sm': !targetIsVisible,
+        }"
       >
-        Login
-      </button>
-    </router-link>
-
-    <router-link to="/login">
-      <button
-        v-if="!user"
-        class="block md:hidden absolute top-1 right-1 btn btn-xs btn-secondary place-items-center gap-1 bg-secondary px-2 py-1 rounded-md hover:bg-secondary-focus"
-      >
-        Login
-      </button>
-    </router-link>
-
-    <div v-if="user" class="absolute top-2 right-1 lg:hidden">
-      <Menu>
-        <ul class="flex flex-col gap-y-3">
-          <li class="hover:text-primary cursor-pointer">
-            <router-link to="/">All recipes</router-link>
-          </li>
-          <li class="hover:text-primary cursor-pointer">
-            <router-link to="/recipes/user">My recipes</router-link>
-          </li>
-          <li class="hover:text-primary cursor-pointer">
-            <router-link to="/add">Add recipe</router-link>
-          </li>
-          <li class="hover:text-primary cursor-pointer">Favorites</li>
-          <div class="divide-x-0"></div>
-          <li @click="handleLogout" class="cursor-pointer hover:text-primary">
-            Logout
-          </li>
-          <li class="hover:text-primary cursor-pointer flex flex-col">
-            <small>Hi, </small
-            ><span class="text-xs">{{ user.email }}</span>
-          </li>
-        </ul>
-      </Menu>
+        <div class="text-red-500 font-bold md:text-md">delicious</div>
+        <span class="font-bold md:text-md text-white">.</span>
+        <div class="text-white font-bold md:text-md">recipes</div>
+      </router-link>
+      <router-link v-if="!user" to="/login">
+        <button
+          class="btn btn-sm bg-transparent border-0 hover:bg-transparent normal-case"
+        >
+          <BIconPersonCircle class="inline-block mr-1 text-xl" />
+          <span>Login</span>
+        </button>
+      </router-link>
+      <div v-else>
+        <Menu arrow placement="bottom">
+          <button
+            class="btn btn-sm bg-transparent border-0 hover:bg-transparent normal-case"
+          >
+            <BIconPersonCircle class="inline-block mr-1 text-xl" />
+            <span class="hidden md:inline-block">{{ user.email }} </span>
+            <BIconCaretDownFill class="inline-block md:ml-2" />
+          </button>
+          <template #content="{ close }">
+            <ul @click="close" v-if="user" class="flex flex-col">
+              <li
+                @click="handleLogout"
+                class="hover:text-secondary cursor-pointer"
+              >
+                Logout
+              </li>
+            </ul>
+          </template>
+        </Menu>
+      </div>
     </div>
   </header>
+
+  <div class="logo w-full bg-gray-800 py-4 px-2">
+    <div
+      class="w-full flex flex-row gap-x-6 max-w-5xl mx-auto place-content-between"
+    >
+      <router-link to="/" class="flex flex-row max-w-md md:w-auto text-2xl">
+        <div ref="target" class="text-red-500 font-bold md:text-3xl">
+          delicious
+        </div>
+        <span class="font-bold md:text-3xl text-white">.</span>
+        <div class="text-white font-bold md:text-3xl">recipes</div>
+      </router-link>
+
+      <div
+        class="hidden md:block text-gray-600 focus-within:text-gray-400 relative"
+      >
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            class="w-6 h-6"
+          >
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </span>
+        <input
+          type="search"
+          name="q"
+          class="py-2 text-sm text-white bg-gray-900 rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+          placeholder="Search..."
+          autocomplete="off"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div
+    v-if="user"
+    class="w-full hidden md:block sticky top-[32px] z-40 bg-gray-700 py-4 px-2 shadow-md"
+  >
+    <div class="w-full flex flex-row max-w-5xl mx-auto place-content-center">
+      <ul class="flex flex-row gap-x-4 place-content-center">
+        <li class="hover:text-secondary cursor-pointer">
+          <router-link to="/">All recipes</router-link>
+        </li>
+        <li class="hover:text-secondary cursor-pointer">
+          <router-link to="/recipes/user">My recipes</router-link>
+        </li>
+        <li class="hover:text-secondary cursor-pointer">
+          <router-link to="/add">Add recipe</router-link>
+        </li>
+        <li class="hover:text-secondary cursor-pointer line-through">Favorites</li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
-import Menu from "../components/Menu.vue";
-
-import { BIconSearch, BIconList } from "bootstrap-icons-vue";
+import {
+  BIconSearch,
+  BIconList,
+  BIconPersonCircle,
+  BIconCaretDownFill,
+} from "bootstrap-icons-vue";
 import getUser from "../composables/getUser";
 import { useRouter } from "vue-router";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/index";
 import googleIcon from "../assets/googleIcon.svg";
-import { onMounted } from "@vue/runtime-core";
+import Menu from "./Menu.vue";
+import { useElementVisibility } from "@vueuse/core";
+import { ref } from "@vue/reactivity";
 
 export default {
   components: {
     BIconSearch,
     BIconList,
+    BIconPersonCircle,
+    BIconCaretDownFill,
+
     Menu,
   },
   setup() {
     const router = useRouter();
     const { user } = getUser();
+    const target = ref(null);
+    const targetIsVisible = useElementVisibility(target);
 
     const handleLogout = async () => {
       await signOut(auth);
@@ -122,13 +171,11 @@ export default {
       user,
       handleLogout,
       googleIcon,
+      targetIsVisible,
+      target,
     };
   },
 };
 </script>
 
-<style>
-.router-link-active {
-  color: rgb(21 128 61);
-}
-</style>
+<style></style>

@@ -11,9 +11,11 @@
   "dependencies": {
     "@vitejs/plugin-basic-ssl": "^0.1.2",
     "@vueuse/core": "^9.1.1",
+    "@vueuse/motion": "^2.0.0-beta.12",
     "bootstrap-icons-vue": "^1.8.1",
     "daisyui": "^2.24.0",
     "firebase": "^9.9.3",
+    "gsap": "^3.11.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.4",
     "vue3-popper": "^1.5.0"
