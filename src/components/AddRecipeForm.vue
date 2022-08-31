@@ -59,7 +59,7 @@
             class="z-50 absolute top-4 right-5 text-2xl text-accent hover:text-accent-focus active:scale-95"
           />
         </button>
-        <small>Click on tag to delete</small>
+        <small>Click on tag to delete (max. 3 tags)</small>
         <ul
           class="inline-block float-right italic"
           v-for="(tag, index) in newRecipe.tags"
@@ -83,7 +83,7 @@
         <label
           for="ingredients"
           class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
-          >Ingredeint e.g. 4 tbsp olive oil (max. 3 tags)
+          >Ingredient e.g. 4 tbsp olive oil
         </label>
 
         <button @click.prevent="handleAddIngredient">
