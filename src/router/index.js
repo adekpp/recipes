@@ -48,8 +48,12 @@ const routes = [
     path: "/tag/:tagName",
     name: "Tag",
     component: () => import("../view/TagView.vue"),
-  }
-
+  },
+  {
+    path: "/search/:query",
+    name: "Search",
+    component: () => import("../view/SearchResults.vue"),
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

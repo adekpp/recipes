@@ -5,9 +5,9 @@
 <script>
 import RecipesList from "../components/RecipesList.vue";
 
-import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import getCollection from "../composables/getCollection";
-import { onMounted, onUpdated, ref,} from "@vue/runtime-core";
+import { onMounted, onUpdated, ref } from "@vue/runtime-core";
 
 export default {
   components: {

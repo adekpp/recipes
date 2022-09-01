@@ -19,7 +19,9 @@
               <li class="md:hidden hover:text-secondary cursor-pointer">
                 <router-link to="/add">Add recipe</router-link>
               </li>
-              <li class="md:hidden hover:text-secondary cursor-pointer line-through">
+              <li
+                class="md:hidden hover:text-secondary cursor-pointer line-through"
+              >
                 Favorites
               </li>
             </ul>
@@ -99,13 +101,15 @@
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
         </span>
-        <input
-          type="search"
-          name="q"
-          class="py-2 text-sm text-white bg-gray-900 rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
-          placeholder="Search..."
-          autocomplete="off"
-        />
+        <form @submit.prevent="handleSearch">
+          <input
+            v-model="searchQuery"
+            type="search"
+            class="py-2 text-sm min-w-[300px] text-white bg-gray-900 rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+            placeholder="Search by #tags"
+          />
+          <button class="btn btn-sm ml-2 ">Search</button>
+        </form>
       </div>
     </div>
   </div>
@@ -125,7 +129,9 @@
         <li class="hover:text-secondary cursor-pointer">
           <router-link to="/add">Add recipe</router-link>
         </li>
-        <li class="hover:text-secondary cursor-pointer line-through">Favorites</li>
+        <li class="hover:text-secondary cursor-pointer line-through">
+          Favorites
+        </li>
       </ul>
     </div>
   </div>
@@ -146,6 +152,7 @@ import googleIcon from "../assets/googleIcon.svg";
 import Menu from "./Menu.vue";
 import { useElementVisibility } from "@vueuse/core";
 import { ref } from "@vue/reactivity";
+import getCollection from "../composables/getCollection";
 
 export default {
   components: {
@@ -157,14 +164,22 @@ export default {
     Menu,
   },
   setup() {
+    const { documents, isLoading, getCollectionRTL } = getCollection("recipes");
     const router = useRouter();
     const { user } = getUser();
     const target = ref(null);
     const targetIsVisible = useElementVisibility(target);
-
+    const searchQuery = ref("");
     const handleLogout = async () => {
       await signOut(auth);
       router.push("/");
+    };
+
+    const handleSearch = () => {
+      if (searchQuery.value) {
+        router.push({ name: "Search", params: { query: searchQuery.value } });
+        searchQuery.value = "";
+      }
     };
 
     return {
@@ -173,6 +188,10 @@ export default {
       googleIcon,
       targetIsVisible,
       target,
+      searchQuery,
+      handleSearch,
+      documents,
+      isLoading,
     };
   },
 };

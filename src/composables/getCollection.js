@@ -1,4 +1,11 @@
-import { onSnapshot, collection, query, where } from "firebase/firestore";
+import {
+  onSnapshot,
+  collection,
+  query,
+  where,
+  limit,
+  orderBy,
+} from "firebase/firestore";
 import { ref, watchEffect } from "vue";
 import { db } from "../firebase/index";
 
@@ -19,11 +26,13 @@ const getCollection = (collectionName) => {
     //collection ref
     let colRef = collection(db, collectionName);
 
+    let queryAll = query(colRef, orderBy("createdAt", "desc"));
+
     if (q) {
-      colRef = query(colRef, where(...q));
+      queryAll = query(colRef, where(...q));
     }
 
-    const unsub = onSnapshot(colRef, (snapshot) => {
+    const unsub = onSnapshot(queryAll, (snapshot) => {
       let results = [];
       snapshot.docs.forEach((doc) => {
         results.push({ ...doc.data(), id: doc.id });

@@ -22,6 +22,7 @@ const onEnter = (el, done) => {
 <template>
   <div class="container mx-auto flex flex-col place-items-center pb-6">
     <div v-if="isLoading" class="pt-20"><Loader /></div>
+    <div class="mt-10" v-if="!isLoading && recipes.length === 0">No recipes</div>
 
     <transition-group
       tag="ul"
