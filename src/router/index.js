@@ -32,18 +32,6 @@ const routes = [
     beforeEnter: requireAuth,
   },
   {
-    path: "/recipes/user",
-    name: "MyRecipes",
-    component: () => import("../view/MyRecipesView.vue"),
-    beforeEnter: requireAuth,
-  },
-  {
-    path: "/favorites/user",
-    name: "MyFavorites",
-    component: () => import("../view/MyFavoritesView.vue"),
-    beforeEnter: requireAuth,
-  },
-  {
     path: "/tag/:tag",
     name: "Tag",
     component: () => import("../view/TagView.vue"),
