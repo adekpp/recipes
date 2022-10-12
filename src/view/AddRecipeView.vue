@@ -1,38 +1,45 @@
-<template>
-  <div
-    class="flex md:gap-4 md:max-w-[900px] max-w-[400px] mx-auto p-3  items-center place-content-center pt-4"
-  >
-    <AddRecipeForm @add-doc="handleAddDoc" />
-  </div>
-</template>
-
-<script>
-import AddRecipeForm from "../components/AddRecipeForm.vue";
-import useCollection from "../composables/useCollection";
+<script setup>
+import AddRecipeForm from "../components/Form/AddRecipeForm.vue";
 import { useRouter } from "vue-router";
-import useStorage from "../composables/useStorage";
-export default {
-  components: {
-    AddRecipeForm,
-  },
-  setup() {
-    const { uploadFile, url } = useStorage();
-    const router = useRouter();
-    const { addDocument, error } = useCollection("recipes");
+import { supabase } from "../supabase/config";
+import getUser from "../composables/getUser";
+import { ref } from "@vue/reactivity";
+const router = useRouter();
+const { user } = getUser();
+const imageTitle = ref(null)
+const setImageName = (imageName) => {
+ imageTitle.value = imageName
+}
+const handleAddDoc = async (recipe) => {
+  try {
+    const { data: image } = await supabase.storage
+      .from("recipes-images")
+      .upload(`${user.value.id}/${imageTitle.value}`, recipe.cover, {
+        upsert: false,
+      });
 
-    const handleAddDoc = async (recipe, recipeCover) => {
-      await uploadFile(recipeCover.value);
-      await addDocument({ ...recipe, cover: url.value });
-      if (!error.value) {
-        router.push("/");
-      }
-    };
+    const { publicURL } = await supabase.storage
+      .from("recipes-images")
+      .getPublicUrl(`${user.value.id}/${imageTitle.value}`);
 
-    return {
-      handleAddDoc,
-    };
-  },
+    const { data: addedRecipe, error } = await supabase
+      .from("recipes")
+      .insert([{ ...recipe, cover: publicURL }]);
+    if (error) {
+      throw error;
+    } else {
+      router.push("/");
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 </script>
+
+<template>
+  <div class="w-full mx-auto min-h-screen">
+    <AddRecipeForm @add-doc="handleAddDoc" @image-name="setImageName" />
+  </div>
+</template>
 
 <style></style>

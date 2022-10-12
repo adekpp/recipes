@@ -1,13 +1,13 @@
+<script setup>
+import TheNavbar from "/src/components/Navbar/TheNavbar.vue";
+import TheFooter from "/src/components/TheFooter.vue";
+</script>
+
 <template>
   <TheNavbar />
-  <router-view />
-</template>
+  <div class="content flex flex-1">
+    <router-view />
+  </div>
 
-<script>
-import TheNavbar from "/src/components/TheNavbar.vue";
-export default {
-  components: {
-    TheNavbar,
-  },
-};
-</script>
+  <TheFooter />
+</template>

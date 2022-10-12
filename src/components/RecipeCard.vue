@@ -1,111 +1,85 @@
-<template>
-  <div
-    class="relative flex flex-col w-72 md:w-full md:max-w-[600px] md:flex-row overflow-hidden bg-white rounded-lg shadow-xl mt-4 mx-2"
-  >
-    <div class="absolute right-1 text-red-500 text-2xl bottom-32 md:top-1">
-      <BIconHeart />
-    </div>
-    <!-- media -->
-    <div class="h-48 md:w-[192px]">
-      <img
-        class="inset-0 h-full w-full object-cover object-center"
-        :src="recipe.cover"
-      />
-    </div>
-    <!-- content -->
-    <div class="w-full max-w-[300px] py-4 px-6 flex flex-col justify-between">
-      <h3
-        class="font-semibold text-xl text-primary leading-tight truncate md:overflow-visible md:whitespace-normal"
-      >
-        {{ recipe.title }}
-      </h3>
-      <ul>
-        <li
-          class="inline-block text-secondary mr-2 text-sm"
-          v-for="tag in recipe.tags"
-          :key="tag"
-        >
-          <router-link :to="{ name: 'Tag', params: { tagName: tag } }"
-            ><span>{{ tag }}</span></router-link
-          >
-        </li>
-      </ul>
-      <div
-        class="mt-2 mb-3 md:mb-0 text-gray-900 flex flex-row items-center gap-x-1"
-      >
-        <div class="tooltip flex flex-row" data-tip="Ingredients">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-secondary-focus"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-            <path
-              fill-rule="evenodd"
-              d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span class="mr-3 text-accent">{{ ingredientsCount }}</span>
-        </div>
-        <div class="tooltip flex flex-row gap-x-1" data-tip="Time">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-secondary-focus"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span class="text-accent">{{ recipe.time }}min.</span>
-        </div>
-      </div>
-      <div></div>
-      <button class="btn btn-sm btn-primary text-white normal-case">
-        Cook
-      </button>
-    </div>
-  </div>
-</template>
+<script setup>
+import { onMounted, ref, watch } from "@vue/runtime-core";
+import CardsHeartIcon from "vue-material-design-icons/CardsHeart.vue";
+import CardsHeartOutlineIcon from "vue-material-design-icons/CardsHeartOutline.vue";
+import getUser from "../composables/getUser";
+import useApi from "../supabase/useApi";
+import { useLike } from "../composables/useLikeUnlike";
 
-<script>
-import { computed } from "@vue/runtime-core";
-import { BIconJournalText, BIconClock, BIconHeart } from "bootstrap-icons-vue";
-export default {
-  props: ["recipe"],
-  components: {
-    BIconJournalText,
-    BIconClock,
-    BIconHeart,
-  },
+const props = defineProps(["recipe", "textSize", "showLikes"]);
+const { like } = useLike();
 
-  setup(props) {
-    const shortDesc = computed(() => {
-      return props.recipe.desc.slice(0, 60);
-    });
+const { isUserLike } = useApi();
+const isLiked = ref();
+const { user } = getUser();
+const recipeLikes = ref(props.recipe.likes);
 
-    const ingredientsCount = computed(() => {
-      return props.recipe.ingredients.length;
-    });
-
-    return { shortDesc, ingredientsCount };
-  },
+const likeRecipe = async (recipe) => {
+  if (!user.value) return;
+  if (isLiked.value) {
+    recipeLikes.value--;
+    isLiked.value = false;
+  } else {
+    recipeLikes.value++;
+    isLiked.value = true;
+  }
+  await like({ x: 1, id: recipe.id });
 };
+watch(user, () => {
+  if (!user.value) {
+    isLiked.value = false;
+  }
+});
+onMounted(async () => {
+  isLiked.value = await isUserLike(`${props.recipe.id}`);
+});
 </script>
 
-<style scoped>
-/* li:after {
-  content: ", \00a0";
-}
-
-li:last-child:after {
-  content: "";
-} */
-</style>
+<template>
+  <div class="recipeCard max-w-[360px]">
+    <figure class="relative group">
+      <router-link :to="{ name: 'RecipeDetails', params: { id: recipe.id } }">
+        <img :src="recipe.cover" alt="" class="peer transition-all" />
+      </router-link>
+      <div
+        class="hidden md:flex absolute top-0 right-0 w-0 h-full flex-col justify-start pt-4 items-center bg-black bg-opacity-80 opacity-0 group-hover:w-[40px] group-hover:opacity-100 duration-300"
+        :class="!showLikes ? 'md:hidden' : null"
+      >
+        <div @click="likeRecipe(recipe)" class="cursor-pointer">
+          <span v-if="isLiked"
+            ><cards-heart-icon :size="24" class="text-red-600"
+          /></span>
+          <span v-if="!isLiked"
+            ><cards-heart-outline-icon :size="24" class="text-white"
+          /></span>
+        </div>
+        <span class="text-white text-md antialiased font-light">{{
+          recipeLikes > 0 ? recipeLikes : null
+        }}</span>
+      </div>
+    </figure>
+    <router-link :to="{ name: 'RecipeDetails', params: { id: recipe.id } }">
+      <div
+        class="flex flex-row mt-2 justify-between font-semibold items-center"
+      >
+        <p :class="textSize" class="truncate">{{ recipe.title }}</p>
+        <div
+          class="flex flex-row md:hidden"
+          :class="!showLikes ? 'hidden' : null"
+        >
+          <div @click="likeRecipe(recipe)" class="cursor-pointer">
+            <span v-if="isLiked"
+              ><cards-heart-icon :size="24" class="text-red-600"
+            /></span>
+            <span v-if="!isLiked"
+              ><cards-heart-outline-icon :size="24" class="text-red-600"
+            /></span>
+          </div>
+          <span class="text-black text-md antialiased font-light">{{
+            recipeLikes > 0 ? recipeLikes : null
+          }}</span>
+        </div>
+      </div>
+    </router-link>
+  </div>
+</template>

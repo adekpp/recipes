@@ -1,24 +1,17 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, useRoute } from "vue-router";
 import HomeView from "/src/view/HomeView.vue";
-import { auth } from "../firebase/index";
+import NotFound from "/src/view/NotFound.vue";
+import getUser from "../composables/getUser";
+const { user } = getUser();
 
 const requireAuth = (to, from, next) => {
-  let user = auth.currentUser;
-  if (!user) {
+  if (!user.value) {
     next({ name: "Home" });
   } else {
     next();
   }
 };
 
-const authCheck = (to, from, next) => {
-  let user = auth.currentUser;
-  if (user) {
-    next({ name: "Home" });
-  } else {
-    next();
-  }
-};
 
 const routes = [
   {
@@ -27,16 +20,16 @@ const routes = [
     component: HomeView,
   },
   {
+    path: "/recipes/:id",
+    name: "RecipeDetails",
+    component: () => import("../view/RecipeDetails.vue"),
+  },
+
+  {
     path: "/add",
     name: "AddRecipe",
     component: () => import("../view/AddRecipeView.vue"),
     beforeEnter: requireAuth,
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: () => import("../view/LoginView.vue"),
-    beforeEnter: authCheck,
   },
   {
     path: "/recipes/user",
@@ -45,7 +38,13 @@ const routes = [
     beforeEnter: requireAuth,
   },
   {
-    path: "/tag/:tagName",
+    path: "/favorites/user",
+    name: "MyFavorites",
+    component: () => import("../view/MyFavoritesView.vue"),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: "/tag/:tag",
     name: "Tag",
     component: () => import("../view/TagView.vue"),
   },
@@ -54,6 +53,7 @@ const routes = [
     name: "Search",
     component: () => import("../view/SearchResults.vue"),
   },
+  { path: "/:pathMatch(.*)", name: "NotFound", component: NotFound },
 ];
 const router = createRouter({
   history: createWebHistory(),

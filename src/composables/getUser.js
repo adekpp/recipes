@@ -1,12 +1,30 @@
 import { ref } from "vue";
-import { auth } from "../firebase/index";
-import { onAuthStateChanged } from "firebase/auth";
+import { supabase } from "../supabase/config";
 
-const user = ref(auth.currentUser);
+const user = ref(supabase.auth.user());
 
-onAuthStateChanged(auth, (_user) => {
-  if (_user) {
-    user.value = _user;
+const createUserProfile = async () => {
+  let { data } = await supabase
+    .from("profiles")
+    .select()
+    .eq("id", user.value.id)
+    .single();
+
+  if (!data) {
+    const updates = {
+      id: user.value.id,
+      email: user.value.email,
+    };
+    const { error } = await supabase.from("profiles").upsert(updates, {
+      returning: "minimal",
+    });
+  }
+};
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    user.value = supabase.auth.user();
+    createUserProfile();
   } else {
     user.value = null;
   }

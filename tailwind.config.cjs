@@ -1,14 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    daisyui: {
-      themes: ["halloween"],
+    extend: {
+      fontFamily: {
+        Playball: ["Playball", "cursive"],
+        sans: ['Inter', "sans-serif"],
+        Title: ['Playfair Display', 'serif']
+      },
     },
-    extend: {},
   },
-  plugins: [require("daisyui")],
-}
+  plugins: [require("daisyui"), require('@tailwindcss/aspect-ratio')],
+};

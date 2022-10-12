@@ -5,16 +5,15 @@ import getUser from "../composables/getUser";
 import { supabase } from "../supabase/config";
 import useApi from "../supabase/useApi";
 const { user } = getUser();
-const { userRecipes, isLoading, getUserRecipes } = useApi();
-
+const { userFavorites, isLoading, getUserFavorites } = useApi();
 onMounted(async () => {
-  await getUserRecipes(user.value.id);
+  await getUserFavorites(user.value.id);
 });
 </script>
 
 <template>
-  <div v-if="userRecipes">
-    <RecipesList :recipes="userRecipes" :isLoading="isLoading" />
+  <div v-if="userFavorites">
+    <RecipesList :recipes="userFavorites" :isLoading="isLoading" />
   </div>
 </template>
 
