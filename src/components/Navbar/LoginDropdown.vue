@@ -10,9 +10,6 @@ const handleLogin = async (provider) => {
   const { session } = await supabase.auth.signIn(
     {
       provider: provider,
-    },
-    {
-      redirectTo: "http://localhost:5173/",
     }
   );
   isLoading.value = false;
