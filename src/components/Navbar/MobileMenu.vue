@@ -1,12 +1,14 @@
 <script setup>
 import { Slide } from "vue3-burger-menu";
 import { useLogin } from "../../composables/useLogin";
-
+import getUser from "../../composables/getUser";
 import {
   BIconHouseDoor,
   BIconFileEarmarkPlus,
   BIconBinoculars,
 } from "bootstrap-icons-vue";
+const { user } = getUser();
+
 const { isLoading, login } = useLogin();
 </script>
 
@@ -27,33 +29,34 @@ const { isLoading, login } = useLogin();
         <BIconBinoculars />Browse recipes
       </p></router-link
     >
-    <h1 class="font-Title block whitespace-nowrap text-sm">Login with:</h1>
-    <div
-    @click="login('facebook')"
-     class="flex flex-row items-center text-sm">
-      <img
-        class="w-7 h-7 -ml-[9px]"
-        src="../../assets/facebookIcon.svg"
-        alt=""
-      />
-      <p>Facebook</p>
+    <div v-if="!user" class="flex flex-col gap-y-3">
+      <h1 class="font-Title block whitespace-nowrap text-sm">Login with:</h1>
+      <div
+        @click="login('facebook')"
+        class="flex flex-row items-center text-sm cursor-pointer"
+      >
+        <img
+          class="w-7 h-7 -ml-[9px]"
+          src="../../assets/facebookIcon.svg"
+          alt=""
+        />
+        <p>Facebook</p>
+      </div>
+      <div
+        @click="login('google')"
+        class="flex flex-row items-center text-sm cursor-pointer"
+      >
+        <img
+          class="w-5 h-5 mr-1 -ml-[5px]"
+          src="../../assets/googleIcon.svg"
+          alt=""
+        />
+        <p>Google</p>
+      </div>
     </div>
-    <div
-    @click="login('google')"
-     class="flex flex-row items-center text-sm">
-      <img
-        class="w-5 h-5 mr-1 -ml-[5px] inline-block"
-        src="../../assets/googleIcon.svg"
-        alt=""
-      />
-      <p class="inline-block">Google</p>
+    <div v-if="user" class="flex flex-col gap-y-3">
+      <button class="inline-flex w-full justify-center items-center bg-[#FF642F] px-4 py-1 text-white font-normal hover:bg-[#fd5a23] active:scale-95 max-w-sm">Logout</button>
     </div>
-
-    <img
-      class="w-4 h-4 mr-2 inline-block"
-      src="../../assets/googleIcon.svg"
-      alt=""
-    />
   </Slide>
 </template>
 <style>
