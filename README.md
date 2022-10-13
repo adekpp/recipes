@@ -1,13 +1,9 @@
-# Work
+# Demo
+https://delicious-recipes777.netlify.app
 
-* adding new recipes
-* getting all recipes or just yours
-* fb/google login
-
-# Todo
-
-* error handling
-* input validation
-* recipe detail page
-* favorites recipes
-* rating
+# TODO
+* errors handling
+* form validation
+* toast notifications based on user actions (login, logout, like)
+* user interface improvements
+* state management (maybe pinia)
