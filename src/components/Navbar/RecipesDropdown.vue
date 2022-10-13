@@ -30,9 +30,11 @@ import { BIconChevronDown } from "bootstrap-icons-vue";
               </div>
             </MenuItem>
           </router-link>
-          <MenuItem>
-            <div class="block px-4 py-2 text-sm">Browse recipes</div>
-          </MenuItem>
+          <router-link to="/allrecipes">
+            <MenuItem>
+              <div class="block px-4 py-2 text-sm">Browse recipes</div>
+            </MenuItem>
+          </router-link>
         </div>
       </MenuItems>
     </transition>

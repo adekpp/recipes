@@ -3,17 +3,9 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { supabase } from "../../supabase/config";
 import { ref } from "@vue/reactivity";
 import { BIconChevronDown } from "bootstrap-icons-vue";
+import { useLogin } from "../../composables/useLogin";
 
-const isLoading = ref(null);
-const handleLogin = async (provider) => {
-  isLoading.value = true;
-  const { session } = await supabase.auth.signIn(
-    {
-      provider: provider,
-    }
-  );
-  isLoading.value = false;
-};
+const { isLoading, login } = useLogin();
 </script>
 <template>
   <Menu as="div" class="relative inline-block text-left">
@@ -39,7 +31,7 @@ const handleLogin = async (provider) => {
         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1">
-          <MenuItem v-slot="{ active }" @click="handleLogin('google')">
+          <MenuItem v-slot="{ active }" @click="login('google')">
             <a
               href="#"
               :class="[
@@ -55,7 +47,7 @@ const handleLogin = async (provider) => {
               Google</a
             >
           </MenuItem>
-          <MenuItem v-slot="{ active }" @click="handleLogin('facebook')">
+          <MenuItem v-slot="{ active }" @click="login('facebook')">
             <a
               href="#"
               :class="[

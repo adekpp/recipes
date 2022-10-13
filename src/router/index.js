@@ -12,7 +12,6 @@ const requireAuth = (to, from, next) => {
   }
 };
 
-
 const routes = [
   {
     path: "/",
@@ -30,6 +29,12 @@ const routes = [
     name: "AddRecipe",
     component: () => import("../view/AddRecipeView.vue"),
     beforeEnter: requireAuth,
+  },
+  {
+    path: "/allrecipes",
+    name: "AllRecipes",
+    component: () => import("../view/AllRecipesView.vue"),
+    // beforeEnter: requireAuth,
   },
   {
     path: "/tag/:tag",

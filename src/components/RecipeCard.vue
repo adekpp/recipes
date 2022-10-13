@@ -36,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="recipeCard max-w-[360px]">
+  <div class="recipeCard md:max-w-[360px]">
     <figure class="relative group">
       <router-link :to="{ name: 'RecipeDetails', params: { id: recipe.id } }">
         <img :src="recipe.cover" alt="" class="peer transition-all" />
@@ -58,28 +58,30 @@ onMounted(async () => {
         }}</span>
       </div>
     </figure>
-    <router-link :to="{ name: 'RecipeDetails', params: { id: recipe.id } }">
-      <div
-        class="flex flex-row mt-2 justify-between font-semibold items-center"
+
+    <div class="flex flex-row mt-2 justify-between font-semibold items-center">
+      <router-link
+        class="truncate pr-2"
+        :to="{ name: 'RecipeDetails', params: { id: recipe.id } }"
       >
         <p :class="textSize" class="truncate">{{ recipe.title }}</p>
-        <div
-          class="flex flex-row md:hidden"
-          :class="!showLikes ? 'hidden' : null"
-        >
-          <div @click="likeRecipe(recipe)" class="cursor-pointer">
-            <span v-if="isLiked"
-              ><cards-heart-icon :size="24" class="text-red-600"
-            /></span>
-            <span v-if="!isLiked"
-              ><cards-heart-outline-icon :size="24" class="text-red-600"
-            /></span>
-          </div>
-          <span class="text-black text-md antialiased font-light">{{
-            recipeLikes > 0 ? recipeLikes : null
-          }}</span>
+      </router-link>
+      <div
+        class="flex flex-row md:hidden"
+        :class="!showLikes ? 'hidden' : null"
+      >
+        <div @click="likeRecipe(recipe)" class="cursor-pointer">
+          <span v-if="isLiked"
+            ><cards-heart-icon :size="24" class="text-red-600"
+          /></span>
+          <span v-if="!isLiked"
+            ><cards-heart-outline-icon :size="24" class="text-red-600"
+          /></span>
         </div>
+        <span class="text-black text-md antialiased font-light">{{
+          recipeLikes > 0 ? recipeLikes : null
+        }}</span>
       </div>
-    </router-link>
+    </div>
   </div>
 </template>
