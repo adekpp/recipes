@@ -19,8 +19,10 @@ const handleLogout = async () => {
 <template>
   <Slide :right="true" :noOverlay="true" :closeOnNavigation="true">
     <div v-if="user" class="flex flex-row items-center">
-      <div class="w-8 rounded-full ring ring-[#FFD7C9] ring-offset-2">
-        <img :src="user.user_metadata.avatar_url" />
+      <div class="avatar">
+        <div class="w-8 rounded-full ring ring-[#FFD7C9] ring-offset-2">
+          <img :src="user.user_metadata.avatar_url" />
+        </div>
       </div>
     </div>
     <router-link to="/">
