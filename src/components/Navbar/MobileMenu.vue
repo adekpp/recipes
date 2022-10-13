@@ -7,6 +7,7 @@ import {
   BIconFileEarmarkPlus,
   BIconBinoculars,
 } from "bootstrap-icons-vue";
+import { supabase } from "../../supabase/config";
 const { user } = getUser();
 
 const { isLoading, login } = useLogin();
@@ -17,6 +18,11 @@ const handleLogout = async () => {
 
 <template>
   <Slide :right="true" :noOverlay="true" :closeOnNavigation="true">
+    <div v-if="user" class="flex flex-row items-center">
+      <div class="w-8 rounded-full ring ring-[#FFD7C9] ring-offset-2">
+        <img :src="user.user_metadata.avatar_url" />
+      </div>
+    </div>
     <router-link to="/">
       <p class="inline-flex items-center gap-x-2">
         <BIconHouseDoor />Home
