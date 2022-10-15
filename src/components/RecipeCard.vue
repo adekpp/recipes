@@ -10,7 +10,7 @@ const props = defineProps(["recipe", "textSize", "showLikes"]);
 const { like } = useLike();
 
 const { isUserLike } = useApi();
-const isLiked = ref();
+let isLiked = ref();
 const { user } = getUser();
 const recipeLikes = ref(props.recipe.likes);
 
