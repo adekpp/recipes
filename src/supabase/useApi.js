@@ -61,14 +61,14 @@ const useApi = () => {
   };
 
   const isUserLike = async (recipeId) => {
-    let userLikes = [];
+    let userLiked = [];
     if (user.value) {
       const { data: userLikes, error } = await supabase
         .from("profiles")
         .select("user_likes")
         .eq("id", user.value.id);
 
-      userLikes = userLikes;
+      userLiked = userLikes;
       if (userLikes[0].user_likes === null) return false;
       if (userLikes[0].user_likes.includes(recipeId)) return true;
       else return false;
