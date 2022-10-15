@@ -69,8 +69,8 @@ const useApi = () => {
         .eq("id", user.value.id);
 
       userLiked = userLikes;
-      if (userLikes[0].user_likes === null) return false;
-      if (userLikes[0].user_likes.includes(recipeId)) return true;
+      if (userLiked[0].user_likes === null) return false;
+      if (userLiked[0].user_likes.includes(recipeId)) return true;
       else return false;
     }
   };
