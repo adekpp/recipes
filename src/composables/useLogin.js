@@ -11,5 +11,5 @@ export function useLogin() {
     isLoading.value = false;
   };
 
-  return { isLoading, login}
+  return { isLoading, login };
 }

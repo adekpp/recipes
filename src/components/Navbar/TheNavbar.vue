@@ -42,11 +42,11 @@ const handleSearch = () => {
       <MobileMenu />
     </div>
 
-    <div class="logo font-Playball font-semibold text-xl md:text-4xl min-w-fit">
       <router-link to="/">
-        <h1 class="text-black text-xl">Delicious Recipes</h1>
-      </router-link>
+    <div class="logo font-Playball font-semibold  min-w-fit">
+        <h1 class="text-black text-xl md:text-4xl">Delicious Recipes</h1>
     </div>
+      </router-link>
     <nav class="hidden md:flex flex-row gap-x-10 text-md font-semibold mx-5">
       <router-link to="/">
         <p class="cursor-pointer">Homepage</p>
