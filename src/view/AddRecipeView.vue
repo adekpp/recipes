@@ -37,9 +37,7 @@ const handleAddDoc = async (recipe) => {
 </script>
 
 <template>
-  <div class="w-full mx-auto">
-    <AddRecipeForm @add-doc="handleAddDoc" @image-name="setImageName" />
-  </div>
+  <AddRecipeForm @add-doc="handleAddDoc" @image-name="setImageName" />
 </template>
 
 <style></style>

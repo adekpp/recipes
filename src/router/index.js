@@ -28,13 +28,13 @@ const routes = [
     path: "/add",
     name: "AddRecipe",
     component: () => import("../view/AddRecipeView.vue"),
-    // beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
   },
   {
     path: "/allrecipes",
     name: "AllRecipes",
     component: () => import("../view/AllRecipesView.vue"),
-    // beforeEnter: requireAuth,
+
   },
   {
     path: "/tag/:tag",
