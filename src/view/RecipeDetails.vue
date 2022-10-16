@@ -73,6 +73,7 @@ watch(
   () => route.params.id,
   async (newId) => {
     if (route.name === "RecipeDetails") {
+      await getSingleRecipe(newId);
     }
   }
 );

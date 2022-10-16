@@ -28,7 +28,7 @@ const routes = [
     path: "/add",
     name: "AddRecipe",
     component: () => import("../view/AddRecipeView.vue"),
-    beforeEnter: requireAuth,
+    // beforeEnter: requireAuth,
   },
   {
     path: "/allrecipes",
