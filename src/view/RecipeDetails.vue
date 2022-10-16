@@ -67,15 +67,12 @@ onMounted(async () => {
     );
     cookingSteps.value = instruction;
   }
-  scrollTo(0, 0);
 });
 
 watch(
   () => route.params.id,
   async (newId) => {
     if (route.name === "RecipeDetails") {
-      await getSingleRecipe(newId);
-      scrollTo(0, 0);
     }
   }
 );

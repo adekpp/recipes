@@ -47,7 +47,6 @@ const useApi = () => {
           .from("recipes")
           .select()
           .textSearch("fts", query);
-        console.log(data);
         searchResults.value = data;
         isLoading.value = false;
         if (error) {
