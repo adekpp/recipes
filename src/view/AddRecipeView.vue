@@ -6,10 +6,10 @@ import getUser from "../composables/getUser";
 import { ref } from "@vue/reactivity";
 const router = useRouter();
 const { user } = getUser();
-const imageTitle = ref(null)
+const imageTitle = ref(null);
 const setImageName = (imageName) => {
- imageTitle.value = imageName
-}
+  imageTitle.value = imageName;
+};
 const handleAddDoc = async (recipe) => {
   try {
     const { data: image } = await supabase.storage
@@ -37,7 +37,7 @@ const handleAddDoc = async (recipe) => {
 </script>
 
 <template>
-  <div class="w-full mx-auto min-h-screen">
+  <div class="w-full mx-auto">
     <AddRecipeForm @add-doc="handleAddDoc" @image-name="setImageName" />
   </div>
 </template>

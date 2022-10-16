@@ -4,7 +4,6 @@ import { supabase } from "../../supabase/config";
 import { ref } from "@vue/reactivity";
 import { BIconChevronDown } from "bootstrap-icons-vue";
 import { useLogin } from "../../composables/useLogin";
-import Loader from "../../components/Loader.vue";
 const { isLoading, login } = useLogin();
 </script>
 <template>
@@ -13,8 +12,7 @@ const { isLoading, login } = useLogin();
       <MenuButton
         class="inline-flex w-full justify-center items-center bg-[#FF642F] px-4 py-1 text-white hover:bg-[#fd5a23] active:scale-95"
       >
-        <Loade v-if="isLoading" />
-        <span v-else class="text-sm font-light">Login</span>
+        <span class="text-sm font-light">Login</span>
         <BIconChevronDown class="-mr-1 ml-1 h-3 w-3" aria-hidden="true" />
       </MenuButton>
     </div>

@@ -27,9 +27,11 @@ const randomRecipe = computed(() => {
     </div>
     <span
       class="absolute bottom-4 right-6 text-2xl cursor-pointer active:scale-95 z-10 before:absolute before:z-[-10] before:block before:w-[40px] before:h-[40px] before:bg-white before:rounded-full before:-translate-y-[50%] before:top-[50%] before:-translate-x-[50%] before:left-[50%] shadow-md transition-all duration-100"
+    >
+      <router-link
+        :to="{ name: 'RecipeDetails', params: { id: randomRecipe.id } }"
       >
-      <router-link :to="{ name: 'RecipeDetails', params: { id: randomRecipe.id } }">
-      <BIconArrowRight />
+        <BIconArrowRight />
       </router-link>
     </span>
   </div>

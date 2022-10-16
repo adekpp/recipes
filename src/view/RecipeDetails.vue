@@ -81,8 +81,8 @@ watch(
 );
 </script>
 <template>
-  <div v-if="!isLoading" class="max-w-[1200px] w-full mx-auto text-gray-900">
-    <div class="mx-4">
+  <div v-if="!isLoading">
+
       <div
         class="flex md:max-w-full text-gray-900 mx-auto md:p-0 place-content-between items-center"
       >
@@ -172,8 +172,7 @@ watch(
         </div>
       </div>
     </div>
-  </div>
-  <div v-else class="flex w-full place-content-center mt-7 min-h-screen">
+  <div v-else class="flex w-full place-content-center mt-7">
     <Loader />
   </div>
 </template>

@@ -11,23 +11,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="max-w-[1200px] mx-auto text-gray-900 min-h-screen overflow-x-hidden"
-  >
-    <div class="mx-3">
-      <h2 class="font-Title font-semibold text-2xl mb-3">
-        Recipes with tag {{ route.params.tag }}
-      </h2>
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
-        <suspense>
-          <RecipesByTag :tag="route.params.tag" />
-          <template #fallback
-            ><div class="grid grid-cols-1 items-center"><Loader /></div>
-          </template>
-        </suspense>
-      </div>
-    </div>
-  </div>
+  <h2 class="font-Title font-semibold text-2xl mb-3">
+    Recipes with tag {{ route.params.tag }}
+  </h2>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+    <suspense>
+      <RecipesByTag :tag="route.params.tag" />
+      <template #fallback
+        ><div class="grid grid-cols-1 items-center"><Loader /></div>
+      </template>
+    </suspense>
+  </div>  
 </template>
 
 <style></style>
