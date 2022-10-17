@@ -81,7 +81,10 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div v-show="imageSrc && !preview" class="flex flex-col">
+  <div
+    v-show="imageSrc && !preview"
+    class="flex flex-col max-w-[500px] mx-auto"
+  >
     <div class="my-2 md:w-full object-fill mx-auto overflow-hidden">
       <img class="block max-w-full" ref="img" :src="imageSrc" />
     </div>
@@ -96,7 +99,7 @@ watchEffect(() => {
     class="flex flex-row max-w-[440px] w-full place-content-between mx-auto text-sm"
   >
     <button
-      class="justify-center items-center bg-[#FF642F] px-4 py-1 text-white font-normal hover:bg-[#fd5a23] active:scale-95"
+      class="justify-center items-center bg-green-600 px-4 py-1 text-white font-normal hover:bg-green-700 active:scale-95"
       v-show="imageSrc && !preview"
       @click="handleCropImage"
     >

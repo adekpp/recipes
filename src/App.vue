@@ -5,10 +5,12 @@ import TheFooter from "/src/components/TheFooter.vue";
 
 <template>
   <TheNavbar />
-  <div class="flex flex-col min-h-screen justify-between">
-    <div class="max-w-[1200px] mx-auto text-gray-900 px-3">
-        <router-view />
-      </div>
+  <div
+    class="flex flex-col min-h-screen justify-between text-gray-900 px-3 w-full"
+  >
+    <div class="max-w-[1200px] w-full mx-auto">
+      <router-view />
+    </div>
 
     <TheFooter />
   </div>

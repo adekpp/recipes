@@ -4,14 +4,19 @@ import { useRouter } from "vue-router";
 import { supabase } from "../supabase/config";
 import getUser from "../composables/getUser";
 import { ref } from "@vue/reactivity";
+
 const router = useRouter();
 const { user } = getUser();
 const imageTitle = ref(null);
+const isLoading = ref(null);
+
 const setImageName = (imageName) => {
   imageTitle.value = imageName;
 };
+
 const handleAddDoc = async (recipe) => {
   try {
+    isLoading.value = true;
     const { data: image } = await supabase.storage
       .from("recipes-images")
       .upload(`${user.value.id}/${imageTitle.value}`, recipe.cover, {
@@ -25,10 +30,10 @@ const handleAddDoc = async (recipe) => {
     const { data: addedRecipe, error } = await supabase
       .from("recipes")
       .insert([{ ...recipe, cover: publicURL }]);
+    isLoading.value = false;
+    router.push("/");
     if (error) {
-      throw error;
-    } else {
-      router.push("/");
+      throw new error();
     }
   } catch (e) {
     console.log(e);
@@ -37,7 +42,11 @@ const handleAddDoc = async (recipe) => {
 </script>
 
 <template>
-  <AddRecipeForm @add-doc="handleAddDoc" @image-name="setImageName" />
+  <AddRecipeForm
+    @add-doc="handleAddDoc"
+    @image-name="setImageName"
+    :isLoading="isLoading"
+  />
 </template>
 
 <style></style>
