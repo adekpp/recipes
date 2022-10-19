@@ -5,7 +5,7 @@ import Loader from '../components/Loader.vue'
 
 <template>
 
-      <h1 class="font-Title text-2xl font-semibold mb-6">All recipes:</h1>
+      <h1 class="font-Title text-2xl font-semibold mb-3">All recipes:</h1>
       <Suspense>
         <AllRecipes />
         <template #fallback>

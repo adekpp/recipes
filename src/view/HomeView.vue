@@ -11,8 +11,10 @@ import LatestRecipes from "../components/LatestRecipes.vue";
 import MostLiked from "../components/MostLiked.vue";
 import TagList from "../components/TagList.vue";
 import { useRouter } from "vue-router";
-import useApi from "../supabase/useApi";
-import { BIconArrowRight } from "bootstrap-icons-vue";
+
+import getUser from "../composables/getUser";
+const { user } = getUser();
+
 const router = useRouter();
 </script>
 
@@ -21,9 +23,9 @@ const router = useRouter();
     <PromotedRecipe />
     <template #fallback>Loading...</template>
   </Suspense>
-
-  <div class="flex flex-col mt-12 font-semibold">
-    <h2 class="font-Title text-2xl">Most liked</h2>
+  
+  <div class="flex flex-col mt-12 font-semibold items-center md:items-baseline">
+    <h2 class="font-Title text-2xl text-left">Most liked</h2>
     <div
       class="grid grid-cols-1 max-w-fit md:grid-cols-3 lg:grid-cols-4 gap-[16px] mt-3"
     >
@@ -34,7 +36,7 @@ const router = useRouter();
     </div>
   </div>
 
-  <div class="flex flex-col mt-12 font-semibold">
+  <div class="flex flex-col mt-12 font-semibold items-center md:items-baseline">
     <h2 class="font-Title text-2xl">Latest recipes</h2>
 
     <div

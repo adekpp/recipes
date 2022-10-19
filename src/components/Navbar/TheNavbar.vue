@@ -37,7 +37,7 @@ const handleSearch = () => {
 <template>
   <div
     class="navbar sticky h-[50px] bg-white px-10 flex items-center place-content-between text-gray-900 mb-16 z-20 max-w-[1440px] mx-auto w-full"
-  >
+   >
     <div class="absolute md:hidden right-[80px] -top-[12px]">
       <MobileMenu />
     </div>

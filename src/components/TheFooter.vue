@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <div class="w-full bg-[#F9F9F9] text-gray-900 max-w-full pt-2 px-4 mx-auto">
+  <div class="w-full bg-[#F9F9F9] text-gray-900 max-w-full pt-2 px-4 mx-auto mt-6">
     <div class="grid grid-cols-1 md:grid-cols-2 place-items-center">
       <div
         class="grid grid-rows-2 max-w-[400px] mb-4 md:mb-0 place-items-center md:place-items-start"

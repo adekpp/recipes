@@ -2,14 +2,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { supabase } from "../../supabase/config";
 import { useRouter } from "vue-router";
+import { useLogout } from "../../composables/useLogout";
 const router = useRouter();
 const props = defineProps(["user"]);
 
-const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut();
-
-  router.push("/");
-};
+const { logout } = useLogout();
 </script>
 <template>
   <Menu as="div" class="relative inline-block text-left">
@@ -33,7 +30,7 @@ const handleLogout = async () => {
         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1">
-          <MenuItem v-slot="{ active }" @click="handleLogout">
+          <MenuItem v-slot="{ active }" @click="logout">
             <a
               href="#"
               :class="[
