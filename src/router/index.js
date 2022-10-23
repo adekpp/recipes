@@ -3,7 +3,7 @@ import HomeView from "/src/view/HomeView.vue";
 import NotFound from "/src/view/NotFound.vue";
 import getUser from "../composables/getUser";
 const { user } = getUser();
-
+console.log(user)
 const requireAuth = (to, from, next) => {
   if (!user.value) {
     next({ name: "Home" });

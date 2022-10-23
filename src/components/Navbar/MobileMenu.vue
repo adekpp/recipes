@@ -8,12 +8,11 @@ import {
   BIconBinoculars,
 } from "bootstrap-icons-vue";
 import { supabase } from "../../supabase/config";
-const { user } = getUser();
+import { useLogout } from "../../composables/useLogout";
 
+const { user } = getUser();
 const { isLoading, login } = useLogin();
-const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut();
-};
+const { logout } = useLogout();
 </script>
 
 <template>
@@ -67,7 +66,7 @@ const handleLogout = async () => {
     </div>
     <div v-if="user" class="flex flex-col gap-y-3">
       <button
-        @click.prevent="handleLogout()"
+        @click.prevent="logout"
         class="inline-flex w-full justify-center items-center bg-[#FF642F] px-4 py-1 text-white font-normal hover:bg-[#fd5a23] active:scale-95 max-w-sm"
       >
         Logout

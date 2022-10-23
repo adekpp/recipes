@@ -36,10 +36,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="recipeCard md:max-w-[360px]">
+  <div class="recipeCard md:max-w-[360px] rounded-2xl">
     <figure class="relative group">
       <router-link :to="{ name: 'RecipeDetails', params: { id: recipe.id } }">
-        <img :src="recipe.cover" alt="" class="peer transition-all" />
+        <img
+          :src="recipe.cover"
+          alt=""
+          class="peer transition-all rounded-2xl"
+        />
       </router-link>
       <div
         class="hidden md:flex absolute top-0 right-0 w-0 h-full flex-col justify-start pt-4 items-center bg-black bg-opacity-80 opacity-0 group-hover:w-[40px] group-hover:opacity-100 duration-300"
@@ -59,12 +63,11 @@ onMounted(async () => {
       </div>
     </figure>
 
-    <div class="flex flex-row mt-2 justify-between font-semibold items-center">
-      <router-link
-        class="truncate pr-2"
-        :to="{ name: 'RecipeDetails', params: { id: recipe.id } }"
-      >
-        <p :class="textSize" class="truncate">{{ recipe.title }}</p>
+    <div
+      class="flex flex-row mt-2 justify-between font-semibold items-start p-2"
+    >
+      <router-link :to="{ name: 'RecipeDetails', params: { id: recipe.id } }">
+        <p :class="textSize">{{ recipe.title }}</p>
       </router-link>
       <div
         class="flex flex-row md:hidden"

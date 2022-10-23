@@ -8,9 +8,13 @@ const toast = createToaster({
   position: "top",
   maxToasts: 1,
   type: "success",
+  duration: 2000
 });
-
 const storage = useStorage("store", { toastSeen: null });
+
+onMounted(() => {
+  storage.value.toastSeen = null
+});
 
 export function useLogin() {
   const isLoading = ref(null);
@@ -24,7 +28,7 @@ export function useLogin() {
 
   watch(user, () => {
     if (user.value && storage.value.toastSeen != true) {
-      toast.show("<b>You are logged in</b>");
+      toast.show(`Hello, ${user.value.email}`);
       storage.value.toastSeen = true;
     }
   });

@@ -5,9 +5,7 @@ import { onMounted, onUpdated, ref } from "@vue/runtime-core";
 import { supabase } from "../supabase/config";
 import Loader from "../components/Loader.vue";
 const route = useRoute();
-onMounted(() => {
-  scrollTo(0, 0);
-});
+
 </script>
 
 <template>
