@@ -24,4 +24,7 @@ dist-ssr
 *.sw?
 .env
 # Local Netlify folder
-.netlify
+.Netlify
+
+# supabase folder
+.supabase
