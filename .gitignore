@@ -27,4 +27,4 @@ dist-ssr
 .Netlify
 
 # supabase folder
-.supabase
+src/supabase/config.js

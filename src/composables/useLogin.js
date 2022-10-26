@@ -12,9 +12,7 @@ const toast = createToaster({
 });
 const storage = useStorage("store", { toastSeen: null });
 
-onMounted(() => {
-  storage.value.toastSeen = null
-});
+
 
 export function useLogin() {
   const isLoading = ref(null);
